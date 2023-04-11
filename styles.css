@@ -8,6 +8,10 @@
     margin: 5px;
 }
 
-/* #forecast {
-    border: 1px solid grey;
-} */
+.hide {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
