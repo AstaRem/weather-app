@@ -35,7 +35,7 @@ searchButton.click(function(event){
             // console.log(latitude);
             // console.log(longitude);
             //get forecast using lat and lon
-            let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey;
+            let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey + "&units=metric";
             console.log("forecasturl is: " + forecastUrl);
             return forecastUrl;
         })
@@ -47,7 +47,11 @@ searchButton.click(function(event){
             url: forecastUrl,
             method:"GET"
         }).then(function(response){
-            console.log("this is response from forecast with lat:" + response.city.country);
+            console.log(response.list[0].main.temp);
+            console.log(response.list[0].wind.speed);
+            console.log(response.list[0].main.humidity);
+            console.log(response.list[0].dt_txt);
+
         })
     }
     
