@@ -2,6 +2,7 @@ let searchButton = $("#search-button");
 let searchInput = $("#search-input");
 let cityBtn = [$("#city-1"), $("#city-2"), $("#city-3"), $("#city-4"), $("#city-5"), $("#city-6")];
 let locationBtn = $(".location-btn");
+let forecastDays = $(".forecast");
 let APIKey = "1f905548b7101976aa855eb9b92ca7ad";
 
 let cities = [];
@@ -25,7 +26,7 @@ searchButton.click(function(event){
     let latUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + userInput + "&appid=" + APIKey;
 
     function getForecast(){
-        $.ajax({
+        return $.ajax({
             url: latUrl,
             method: "GET"
         }).then(function(response){
@@ -33,12 +34,26 @@ searchButton.click(function(event){
             let longitude = response[0].lon;
             // console.log(latitude);
             // console.log(longitude);
+            //get forecast using lat and lon
             let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey;
-            console.log(forecastUrl);
+            console.log("forecasturl is: " + forecastUrl);
             return forecastUrl;
         })
-    
     }
+    
+    
+    function get5day(forecastUrl){
+        return $.ajax({
+            url: forecastUrl,
+            method:"GET"
+        }).then(function(response){
+            console.log("this is response from forecast with lat:" + response.city.country);
+        })
+    }
+    
+    getForecast().then(function(forecastUrl){
+        get5day(forecastUrl);
+    });
 
 
     function getToday(){
@@ -59,7 +74,6 @@ searchButton.click(function(event){
     }
 
     getToday();
-    
 
 
     if(cities.length > 6){
