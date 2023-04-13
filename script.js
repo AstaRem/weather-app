@@ -35,7 +35,8 @@ searchButton.click(function(event){
             // console.log(latitude);
             // console.log(longitude);
             //get forecast using lat and lon
-            let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey + "&units=metric";
+            // let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey + "&units=metric";
+            let forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=current,minutely,hourly,alerts&appid=" + APIKey + "&units=metric";
             console.log("forecasturl is: " + forecastUrl);
             return forecastUrl;
         })
@@ -62,7 +63,6 @@ searchButton.click(function(event){
                     console.log('timestamp is matching!')
                 }
             }  
-            
         })
     }
     
