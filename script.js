@@ -2,7 +2,7 @@ let searchButton = $("#search-button");
 let searchInput = $("#search-input");
 let cityBtn = [$("#city-1"), $("#city-2"), $("#city-3"), $("#city-4"), $("#city-5"), $("#city-6")];
 let locationBtn = $(".location-btn");
-let forecastDays = $(".forecast");
+let forecastDays =[$("#day-one"), $("#day-two"), $("#day-three"), $("#day-four"), $("#day-five")] ;
 let APIKey = "1f905548b7101976aa855eb9b92ca7ad";
 
 let cities = [];
@@ -58,7 +58,7 @@ searchButton.click(function(event){
             }
             for(let i = 0; i < forecastDays.length; i++){
                 let date = moment().add(i+1, 'days').format('DD/MM/YYYY');
-
+                forecastDays[i].html(date);
                 // let timestamp = date.unix();
                 // console.log(`${date} - ${formattedDate} - ${timestamp}`)
                 // if(response.list[i].dt == 1681462800){
