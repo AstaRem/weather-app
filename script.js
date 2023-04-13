@@ -3,6 +3,10 @@ let searchInput = $("#search-input");
 let cityBtn = [$("#city-1"), $("#city-2"), $("#city-3"), $("#city-4"), $("#city-5"), $("#city-6")];
 let locationBtn = $(".location-btn");
 let forecastDays =[$("#day-one"), $("#day-two"), $("#day-three"), $("#day-four"), $("#day-five")] ;
+let dayTemp = [$("#temp-day-day1"), $("#temp-day-day2"), $("#temp-day-day3"), $("#temp-day-day4"), $("#temp-day-day5")];
+let nightTemp = [$("#temp-night-day1"), $("#temp-night-day2"), $("#temp-night-day3"), $("#temp-night-day4"), $("#temp-night-day5")];
+let windDays = [$("#wind-speed-day1"), $("#wind-speed-day2"), $("#wind-speed-day3"), $("#wind-speed-day4"), $("#wind-speed-day5")];
+let humidityDays = [$("#humidity-day1"), $("#humidity-day2"), $("#humidity-day3"), $("#humidity-day4"), $("#humidity-day5")];
 let APIKey = "1f905548b7101976aa855eb9b92ca7ad";
 
 let cities = [];
@@ -49,7 +53,17 @@ searchButton.click(function(event){
             url: forecastUrl,
             method:"GET"
         }).then(function(response){
-            for(let n = 0; n < response.daily.length; n++){
+            for(let n = 0; n < forecastDays.length; n++){
+                dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}`);
+                nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}`);
+                windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
+                humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}`);
+                // $("#temp-day").html(`Temp: ${Math.floor(response.daily[n].temp.day)}`);
+                // $("#temp-night").html(`Temp: ${Math.floor(response.daily[n].temp.night)}`);
+                // $("#wind-speed").html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
+                // $("#humidity").html(`Humidity: ${Math.floor(response.daily[n].humidity)}`);
+                
+                console.log(`n is ${n}, day temp: ${response.daily[n].temp.day}`);
                 console.log(response.daily[n].temp.day);
                 console.log(response.daily[n].temp.night);
                 console.log(response.daily[n].wind_speed);
