@@ -42,7 +42,6 @@ searchButton.click(function(event){
         })
     }
 
-    console.log(`Here is the result of getForecast(): ${getForecast()}`)
     
     
     function get5day(forecastUrl){
@@ -50,18 +49,21 @@ searchButton.click(function(event){
             url: forecastUrl,
             method:"GET"
         }).then(function(response){
-            console.log(response.list[0].main.temp);
-            console.log(response.list[0].wind.speed);
-            console.log(response.list[0].main.humidity);
-            console.log(response.list[0].dt_txt);
+            for(let n = 0; n < response.daily.length; n++){
+                console.log(response.daily[n].temp.day);
+                console.log(response.daily[n].temp.night);
+                console.log(response.daily[n].wind_speed);
+                console.log(response.daily[n].humidity);
+    
+            }
             for(let i = 0; i < forecastDays.length; i++){
-                let date = moment().add(i+1, 'days').hour(9).minute(00).second(00);
-                let formattedDate = date.format('DD/MM/YYYY, h:mm a');
-                let timestamp = date.unix();
-                console.log(`${date} - ${formattedDate} - ${timestamp}`)
-                if(response.list[i].dt == 1681462800){
-                    console.log('timestamp is matching!')
-                }
+                let date = moment().add(i+1, 'days').format('DD/MM/YYYY');
+
+                // let timestamp = date.unix();
+                // console.log(`${date} - ${formattedDate} - ${timestamp}`)
+                // if(response.list[i].dt == 1681462800){
+                //     console.log('timestamp is matching!')
+                // }
             }  
         })
     }
