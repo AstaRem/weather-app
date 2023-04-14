@@ -92,19 +92,26 @@ searchButton.click(function(event){
     getToday();
 
 //limit quantity of historic buttons on the page to 6
-    if(cities.length > 6){
-        cities.shift();
-    }
-    
-    for(let i = 0; i < cities.length; i++){
-        localStorage.setItem(`city${i}`, cities[i] )
-    }
 
-    for ( let b = 0; b < locationBtn.length; b++){
-        console.log(locationBtn[b]);
-        locationBtn[b].textContent = localStorage.getItem('city' + b);
-        locationBtn.removeClass('hide');
-    }
+    //add event listeners to location buttons
+    //and when it is clicked, get latitude,today and forecast
 
 })
 
+if(cities.length > 6){
+    cities.shift();
+}
+
+for(let i = 0; i < cities.length; i++){
+    localStorage.setItem(`city${i}`, cities[i] )
+}
+
+for ( let b = 0; b < locationBtn.length; b++){
+    console.log(locationBtn[b]);
+    locationBtn[b].textContent = localStorage.getItem('city' + b);
+    locationBtn.removeClass('hide');
+}
+
+$("#city-1").click(function(){
+    console.log("you clicked city-1 button")
+})
