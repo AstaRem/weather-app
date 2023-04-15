@@ -95,23 +95,32 @@ searchButton.click(function(event){
 
     //add event listeners to location buttons
     //and when it is clicked, get latitude,today and forecast
+    
+   renderCities(); 
 
 })
 
-if(cities.length > 6){
-    cities.shift();
+function renderCities(){
+    if(cities.length > 6){
+        cities.shift();
+    }
+    
+    for(let i = 0; i < cities.length; i++){
+        localStorage.setItem(`city${i}`, cities[i] )
+    }
+    
+    for ( let b = 0; b < locationBtn.length; b++){
+        console.log(locationBtn[b]);
+        locationBtn[b].textContent = localStorage.getItem('city' + b);
+        locationBtn.removeClass('hide');
+    }
+    
 }
 
-for(let i = 0; i < cities.length; i++){
-    localStorage.setItem(`city${i}`, cities[i] )
-}
-
-for ( let b = 0; b < locationBtn.length; b++){
-    console.log(locationBtn[b]);
-    locationBtn[b].textContent = localStorage.getItem('city' + b);
-    locationBtn.removeClass('hide');
-}
+renderCities();
 
 $("#city-1").click(function(){
     console.log("you clicked city-1 button")
 })
+//when i click s city button, i want it to retrieve information from today weather and weather forecast, and display it on the page again
+
