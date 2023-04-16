@@ -11,7 +11,7 @@ cityBtn[c].click(function(event){
     let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + townName + "&appid=" + APIKey + "&units=metric"
     console.log(queryUrl);
 
-    let latUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + townName + "&appid=" + APIKey;
+    let latUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + townName + "&appid=" + APIKey;
     console.log(latUrl)
 
     function getForecast(){
@@ -21,10 +21,6 @@ cityBtn[c].click(function(event){
         }).then(function(response){
             let latitude = response[0].lat;
             let longitude = response[0].lon;
-            // console.log(latitude);
-            // console.log(longitude);
-            //get forecast using lat and lon
-            // let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey + "&units=metric";
             let forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=current,minutely,hourly,alerts&appid=" + APIKey + "&units=metric";
             console.log("forecasturl is: " + forecastUrl);
 
@@ -39,7 +35,7 @@ cityBtn[c].click(function(event){
         }).then(function(response){
             for(let n = 0; n < forecastDays.length; n++){
                 let iconCode = response.daily[n].weather[0].icon;
-                let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                let iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
                 images[n].attr("src", iconUrl );
 
                 dayTemp[n].html(`Temp.day: ${Math.floor(response.daily[n].temp.day)}C`);
@@ -64,7 +60,7 @@ cityBtn[c].click(function(event){
             method: "GET"
         }).then(function(response){
             let iconCodeToday = response.weather[0].icon;
-            let iconUrlToday = "http://openweathermap.org/img/w/" + iconCodeToday + ".png";
+            let iconUrlToday = "https://openweathermap.org/img/w/" + iconCodeToday + ".png";
             $("#today-img").attr("src", iconUrlToday );
 
             $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}C`);

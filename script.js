@@ -31,7 +31,7 @@ searchButton.click(function(event){
     console.log(queryUrl);
 
     //to get lat and lon from user input town
-    let latUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + userInput + "&appid=" + APIKey;
+    let latUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + userInput + "&appid=" + APIKey;
  
     // definition - using geolocation url, get latitude and longitude and add it to one call api endpoint 
     function getForecast(){
@@ -57,7 +57,7 @@ searchButton.click(function(event){
             for(let n = 0; n < forecastDays.length; n++){
                 //displays weather image
                 let iconCode = response.daily[n].weather[0].icon;
-                let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                let iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
                 images[n].attr("src", iconUrl );
                 //displays weather details
                 dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}C`);
@@ -83,7 +83,7 @@ searchButton.click(function(event){
             method: "GET"
         }).then(function(response){
             let iconCodeToday = response.weather[0].icon;
-            let iconUrlToday = "http://openweathermap.org/img/w/" + iconCodeToday + ".png";
+            let iconUrlToday = "https://openweathermap.org/img/w/" + iconCodeToday + ".png";
             $("#today-img").attr("src", iconUrlToday );
 
 
