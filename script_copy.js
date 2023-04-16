@@ -15,22 +15,105 @@ let locations = [];
 let queryUrl = "";
 let latitude; 
 let longitude;
+let forecastUrl;
 
 let dateNow = moment().format('DD/MM/YYYY, h:mm a');
 
 searchButton.click(function(event){
     event.preventDefault();
-
-    getWeatherInfo();
-
-    // getToday();
-
-//limit quantity of historic buttons on the page to 6
-
-    //add event listeners to location buttons
-    //and when it is clicked, get latitude,today and forecast
+        userInput = searchInput.val();
+        cities.push(userInput);
+        forecast.removeClass("hide");
     
-   renderCities(); 
+    
+        // url for today weather api
+        let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&appid=" + APIKey + "&units=metric"
+        console.log(queryUrl);
+    
+        //to get lat and lon from user input town
+        let latUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + userInput + "&appid=" + APIKey;
+     
+        // definition - using geoplocation url, get latitude and longitude and add it to one call api endpoint 
+        function getForecast(){
+            return $.ajax({
+                url: latUrl,
+                method: "GET"
+            }).then(function(response){
+                let latitude = response[0].lat;
+                let longitude = response[0].lon;
+                // console.log(latitude);
+                // console.log(longitude);
+                //get forecast using lat and lon
+                // let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey + "&units=metric";
+                forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=current,minutely,hourly,alerts&appid=" + APIKey + "&units=metric";
+                // console.log("forecasturl is: " + forecastUrl);
+                return forecastUrl;
+            })
+        }
+        
+        //definition -using forecastUrl, make call to one call api and get the forecast for 7 days(but i will be using only first 5). then display forecast information on page.
+        function get5day(forecastUrl){
+            return $.ajax({
+                url: forecastUrl,
+                method:"GET"
+            }).then(function(response){
+                for(let n = 0; n < forecastDays.length; n++){
+                    dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}`);
+                    nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}`);
+                    windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
+                    humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}`);
+                }
+                for(let i = 0; i < forecastDays.length; i++){
+                    let date = moment().add(i+1, 'days').format('DD/MM/YYYY');
+                    forecastDays[i].html(date);
+                }  
+            })
+        }
+        
+        });
+
+
+    
+    //definition - get todays weather information from current weather data api and display on the page 
+        function getToday(){
+            $.ajax({
+                url: queryUrl,
+                method: "GET"
+            }).then(function(response){
+    
+                $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}`);
+                $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}`);
+                $("#humidity-today").html(`Humidity: ${Math.floor(response.main.humidity)}`);
+                $("#current-town").html(`${userInput} ${dateNow}`);
+            }
+            )
+        }
+    
+    getToday();  
+    renderCities(); 
+
+    $("#city-6").click(function(event){
+        event.preventDefault();
+        //localstorage.get(event.target(val))
+        let cityName = $(this).text();
+        console.log(cityName);
+
+        let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey + "&units=metric"
+        console.log(`city btn, queryUrl: ${queryUrl}`);
+    
+        //to get lat and lon from user input town
+        let latUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + APIKey;
+        console.log(`city btn, latUrl: ${latUrl}`);
+
+        getForecast().then(function(forecastUrl){
+            get5day(forecastUrl);
+            console.log(forecastUrl);
+
+        });
+
+    
+        })
+
 
 })
 
@@ -53,83 +136,17 @@ function renderCities(){
 
 renderCities();
 
-$("#city-1").click(function(){
-    console.log("you clicked city-1 button")
-})
-//when i click s city button, i want it to retrieve information from today weather and weather forecast, and display it on the page again
 
 
-function getWeatherInfo(){
-    let userInput = searchInput.val();
-    cities.push(userInput);
-    forecast.removeClass("hide");
+    // function getTown(){
+    //     let town = localStorage.getItem('city' + 2);
+    //     userInput = town;
+    //     return userInput;
+    // }
 
+    // getTown();
 
-    // url for today weather api
-    let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&appid=" + APIKey + "&units=metric"
-    console.log(queryUrl);
-
-    //to get lat and lon from user input town
-    let latUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + userInput + "&appid=" + APIKey;
- 
-    // definition - using geoplocation url, get latitude and longitude and add it to one call api endpoint 
-    function getForecast(){
-        return $.ajax({
-            url: latUrl,
-            method: "GET"
-        }).then(function(response){
-            let latitude = response[0].lat;
-            let longitude = response[0].lon;
-            // console.log(latitude);
-            // console.log(longitude);
-            //get forecast using lat and lon
-            // let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey + "&units=metric";
-            let forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=current,minutely,hourly,alerts&appid=" + APIKey + "&units=metric";
-            console.log("forecasturl is: " + forecastUrl);
-            return forecastUrl;
-        })
-    }
 
     
-    //definition -using forecastUrl, make call to one call api and get the forecast for 7 days(but i will be using only first 5). then display forecast information on page.
-    function get5day(forecastUrl){
-        return $.ajax({
-            url: forecastUrl,
-            method:"GET"
-        }).then(function(response){
-            for(let n = 0; n < forecastDays.length; n++){
-                dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}`);
-                nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}`);
-                windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
-                humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}`);
-            }
-            for(let i = 0; i < forecastDays.length; i++){
-                let date = moment().add(i+1, 'days').format('DD/MM/YYYY');
-                forecastDays[i].html(date);
-            }  
-        })
-    }
     
-    getForecast().then(function(forecastUrl){
-        get5day(forecastUrl);
-    });
-
-//definition - get todays weather information from current weather data api and display on the page 
-    function getToday(){
-        $.ajax({
-            url: queryUrl,
-            method: "GET"
-        }).then(function(response){
-
-            $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}`);
-            $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}`);
-            $("#humidity-today").html(`Humidity: ${Math.floor(response.main.humidity)}`);
-            $("#current-town").html(`${userInput} ${dateNow}`);
-        }
-        )
-    }
-
-    getToday();
-
-    }
 
