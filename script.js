@@ -7,7 +7,8 @@ let dayTemp = [$("#temp-day-day1"), $("#temp-day-day2"), $("#temp-day-day3"), $(
 let nightTemp = [$("#temp-night-day1"), $("#temp-night-day2"), $("#temp-night-day3"), $("#temp-night-day4"), $("#temp-night-day5")];
 let windDays = [$("#wind-speed-day1"), $("#wind-speed-day2"), $("#wind-speed-day3"), $("#wind-speed-day4"), $("#wind-speed-day5")];
 let humidityDays = [$("#humidity-day1"), $("#humidity-day2"), $("#humidity-day3"), $("#humidity-day4"), $("#humidity-day5")];
-let forecast = $(".forecast")
+let forecast = $(".forecast");
+let images = [$("#day1-img"), $("#day2-img"), $("#day3-img"), $("#day4-img"), $("#day5-img") ]
 let APIKey = "1f905548b7101976aa855eb9b92ca7ad";
 
 let cities = [];
@@ -16,6 +17,7 @@ let queryUrl = "";
 let latitude; 
 let longitude;
 
+//to get current date:
 let dateNow = moment().format('DD/MM/YYYY, h:mm a');
 
 searchButton.click(function(event){
@@ -57,6 +59,11 @@ searchButton.click(function(event){
             method:"GET"
         }).then(function(response){
             for(let n = 0; n < forecastDays.length; n++){
+                //displays weather image
+                let iconCode = response.daily[n].weather[0].icon;
+                let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                images[n].attr("src", iconUrl );
+                //displays weather details
                 dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}`);
                 nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}`);
                 windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
@@ -79,6 +86,10 @@ searchButton.click(function(event){
             url: queryUrl,
             method: "GET"
         }).then(function(response){
+            let iconCodeToday = response.weather[0].icon;
+            let iconUrlToday = "http://openweathermap.org/img/w/" + iconCodeToday + ".png";
+            $("#today-img").attr("src", iconUrlToday );
+
 
             $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}`);
             $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}`);
