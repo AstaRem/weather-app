@@ -49,5 +49,22 @@ $("#city-2").click(function(event){
         get5day(forecastUrl);
     });
 
+    function getToday(){
+        $.ajax({
+            url: queryUrl,
+            method: "GET"
+        }).then(function(response){
+
+            $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}`);
+            $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}`);
+            $("#humidity-today").html(`Humidity: ${Math.floor(response.main.humidity)}`);
+            $("#current-town").html(`${townName} ${dateNow}`);
+        }
+        )
+    }
+
+
+    getToday();
+
 
 })
