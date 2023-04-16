@@ -1,6 +1,11 @@
-$("#city-2").click(function(event){
+for (let  c = 0; c < cityBtn.length; c++){
+
+
+cityBtn[c].click(function(event){
     event.preventDefault();
-    console.log("you clicked button2");
+    forecast.removeClass("hide");
+
+    console.log(`You have clicked ${cityBtn[c].attr("id")}`);
     let townName = $(this). text();
     console.log(townName);
     let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + townName + "&appid=" + APIKey + "&units=metric"
@@ -33,6 +38,8 @@ $("#city-2").click(function(event){
             method:"GET"
         }).then(function(response){
             for(let n = 0; n < forecastDays.length; n++){
+                console.log(`here is response: ${response.daily[n].pressure}`)
+
                 dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}`);
                 nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}`);
                 windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
@@ -66,5 +73,6 @@ $("#city-2").click(function(event){
 
     getToday();
 
-
 })
+
+}
