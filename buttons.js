@@ -38,14 +38,14 @@ cityBtn[c].click(function(event){
             method:"GET"
         }).then(function(response){
             for(let n = 0; n < forecastDays.length; n++){
-                // console.log(`here is response: ${response.daily[n].pressure}`)
                 let iconCode = response.daily[n].weather[0].icon;
                 let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
                 images[n].attr("src", iconUrl );
-                dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}`);
-                nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}`);
-                windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
-                humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}`);
+
+                dayTemp[n].html(`Temp.day: ${Math.floor(response.daily[n].temp.day)}C`);
+                nightTemp[n].html(`Temp. C night: ${Math.floor(response.daily[n].temp.night)}C`);
+                windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}m/s`);
+                humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}%`);
             }
             for(let i = 0; i < forecastDays.length; i++){
                 let date = moment().add(i+1, 'days').format('DD/MM/YYYY');
@@ -67,9 +67,9 @@ cityBtn[c].click(function(event){
             let iconUrlToday = "http://openweathermap.org/img/w/" + iconCodeToday + ".png";
             $("#today-img").attr("src", iconUrlToday );
 
-            $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}`);
-            $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}`);
-            $("#humidity-today").html(`Humidity: ${Math.floor(response.main.humidity)}`);
+            $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}C`);
+            $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}m/s`);
+            $("#humidity-today").html(`Humidity: ${Math.floor(response.main.humidity)}%`);
             $("#current-town").html(`${townName} ${dateNow}`);
         }
         )

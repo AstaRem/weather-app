@@ -33,7 +33,7 @@ searchButton.click(function(event){
     //to get lat and lon from user input town
     let latUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + userInput + "&appid=" + APIKey;
  
-    // definition - using geoplocation url, get latitude and longitude and add it to one call api endpoint 
+    // definition - using geolocation url, get latitude and longitude and add it to one call api endpoint 
     function getForecast(){
         return $.ajax({
             url: latUrl,
@@ -41,12 +41,8 @@ searchButton.click(function(event){
         }).then(function(response){
             let latitude = response[0].lat;
             let longitude = response[0].lon;
-            // console.log(latitude);
-            // console.log(longitude);
-            //get forecast using lat and lon
-            // let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey + "&units=metric";
+
             let forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=current,minutely,hourly,alerts&appid=" + APIKey + "&units=metric";
-            console.log("forecasturl is: " + forecastUrl);
             return forecastUrl;
         })
     }
@@ -64,10 +60,10 @@ searchButton.click(function(event){
                 let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
                 images[n].attr("src", iconUrl );
                 //displays weather details
-                dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}`);
-                nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}`);
-                windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}`);
-                humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}`);
+                dayTemp[n].html(`Temp. day: ${Math.floor(response.daily[n].temp.day)}C`);
+                nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}C`);
+                windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}m/s`);
+                humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}%`);
             }
             for(let i = 0; i < forecastDays.length; i++){
                 let date = moment().add(i+1, 'days').format('DD/MM/YYYY');
@@ -91,9 +87,9 @@ searchButton.click(function(event){
             $("#today-img").attr("src", iconUrlToday );
 
 
-            $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}`);
-            $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}`);
-            $("#humidity-today").html(`Humidity: ${Math.floor(response.main.humidity)}`);
+            $("#temp-today").html(`Temp: ${Math.floor(response.main.temp)}C`);
+            $("#wind-today").html(`Wind: ${Math.floor(response.wind.speed)}m/s`);
+            $("#humidity-today").html(`Humidity: ${Math.floor(response.main.humidity)}%`);
             $("#current-town").html(`${userInput} ${dateNow}`);
         }
         )
@@ -102,11 +98,6 @@ searchButton.click(function(event){
 
     getToday();
 
-//limit quantity of historic buttons on the page to 6
-
-    //add event listeners to location buttons
-    //and when it is clicked, get latitude,today and forecast
-    
    renderCities(); 
 
 })
@@ -130,8 +121,4 @@ function renderCities(){
 
 renderCities();
 
-$("#city-1").click(function(){
-    console.log("you clicked city-1 button")
-})
-//when i click s city button, i want it to retrieve information from today weather and weather forecast, and display it on the page again
 
