@@ -39,7 +39,7 @@ cityBtn[c].click(function(event){
                 images[n].attr("src", iconUrl );
 
                 dayTemp[n].html(`Temp.day: ${Math.floor(response.daily[n].temp.day)}C`);
-                nightTemp[n].html(`Temp. C night: ${Math.floor(response.daily[n].temp.night)}C`);
+                nightTemp[n].html(`Temp.night: ${Math.floor(response.daily[n].temp.night)}C`);
                 windDays[n].html(`Wind: ${Math.floor(response.daily[n].wind_speed)}m/s`);
                 humidityDays[n].html(`Humidity: ${Math.floor(response.daily[n].humidity)}%`);
             }
@@ -70,10 +70,7 @@ cityBtn[c].click(function(event){
         }
         )
     }
-
-
     getToday();
-
 })
 
 }
