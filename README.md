@@ -33,14 +33,14 @@ After user does few searches, six last searches(cities) are saved and displayed 
 
 ![saved search cities](images/searches_saved.JPG)
 
-User can click a city button and retrieve today's weather and forecast for this city again.
+
 Even when user refreshes the page or closes the window - when they come back, the city names are still displayed on the buttons:
 
 ![after refresh](images/after_refresh.JPG)
 
 
 
-That is possible because user search is saved in local storage:
+User can click a city button and retrieve today's weather and forecast for this city again. That is possible because user search is saved in local storage:
 
 ![searches saved in local storage](images/local_storage.JPG)
 
